@@ -37,13 +37,17 @@
             font-family: "Noto Serif", sans-serif;
             font-weight: normal;
             color: black;  
-            font-optical-sizing: auto;  
+            font-optical-sizing: auto;
+            margin: 0;
+
+
+
           }
         h1 {
             color: navy;
             text-align: center;
         }
-        .here {
+        .text {
             height: 100%;
           width: 100%;
           display: flex;
@@ -53,6 +57,9 @@
           margin: 0;
           padding: 0;
         }
+        .here {
+          margin: 0.2em;
+        }
     </style>
 
 </head>
@@ -60,8 +67,9 @@
 <body>
 
   <!-- Add your site or application content here -->
+  <div class="text">
   <p class="here"></p>
-  <p class="test"></p>
+</div>
   <script src="js/app.js"></script>
 
   <script>
@@ -112,19 +120,43 @@
           );
 
 
-        var a = Math.floor(Math.random()*items.length);
-        $(".test").text(a);
-        var b;
-        var c;
+        var last_randoms = [];
+        var last_randoms_max = 10;
 
-        var item = items[Math.floor(Math.random()*items.length)];
+
+        function randomizzer() {
+          var a = Math.floor(Math.random()*items.length);
+
+          if (last_randoms.includes(a)) {
+            return randomizzer();
+          }
+          else {
+
+            if (last_randoms.length >= last_randoms_max) {
+              last_randoms.shift();
+            }
+            
+            last_randoms.push(a);
+            return a;
+
+          }
+}
+        
+
+
+        
+
+
+        var item = items[randomizzer()];
 
         $(document).ready(function() {
 
           $(".here").text(item);
 
-          $( ".here" ).on( "click", function() {
-              var item = items[Math.floor(Math.random()*items.length)];
+          $( ".text" ).on( "click", function() {
+              var b = randomizzer();
+              $(".test").text(last_randoms);
+              var item = items[b];
               $(".here").text(item);
           } );
             
